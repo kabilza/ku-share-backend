@@ -6,7 +6,7 @@ const uniqid = require("uniqid");
 const Lecture = require("../models/lecture");
 
 exports.lectureUpload = (req, res, next) => {
-  console.log(req.body);
+  console.log(req.file);
   const email = req.body.email
   res.json({
     message: "hello",

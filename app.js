@@ -23,7 +23,7 @@ const establishDBconnection = async () => {
 
 establishDBconnection();
 
-app.use("/uploads", express.static("uploads"));
+// app.use("/uploads", express.static("uploads"));
 app.use(morgan("dev")); // to add status in console
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json()); //enable req.body reads
