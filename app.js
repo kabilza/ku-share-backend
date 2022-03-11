@@ -3,7 +3,7 @@ const app = express();
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 
-// const userRoutes = require("./api/routes/user");
+const userRoutes = require("./api/routes/user");
 // const batteryRoutes = require("./api/routes/battery");
 
 const establishDBconnection = async () => {
@@ -15,7 +15,8 @@ const establishDBconnection = async () => {
     );
     console.log("DB connection established!");
   } catch (error) {
-    handleError(error);
+    console.log("DB connection unsuccessful!");
+    // handleError(error);
   }
 };
 
@@ -39,10 +40,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// app.use("/products", productRoutes);
-// app.use("/orders", orderRoutes);
-// app.use("/battery", batteryRoutes);
-// app.use("/user", userRoutes);
+app.use("/user", userRoutes);
 
 app.use((req, res, next) => {
   const error = new Error("Not found");
