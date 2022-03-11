@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 
 const userRoutes = require("./api/routes/user");
+const lectureRoutes = require("./api/routes/lectureUpload");
 // const batteryRoutes = require("./api/routes/battery");
 
 const establishDBconnection = async () => {
@@ -41,6 +42,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/user", userRoutes);
+app.use("/lecture", lectureRoutes);
 
 app.use((req, res, next) => {
   const error = new Error("Not found");
