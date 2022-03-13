@@ -1,6 +1,9 @@
 {
     "env": {
         "MONGO_ATLAS_PW": "kusharepw123",
-        "JWT_KEY": "secret"
+        "JWT_KEY": "secret",
+        "CLOUD_NAME": "brewster-cloud",
+        "CLOUD_SECRET": "sfVkUlqKOJSfV72RnuW6wVM2aUk",
+        "CLOUD_API_KEY": "243387917836387"
     }
 }
