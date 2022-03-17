@@ -4,7 +4,7 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 
 const userRoutes = require("./api/routes/user");
-const lectureRoutes = require("./api/routes/lectureUpload");
+const lectureRoutes = require("./api/routes/lecture");
 // const batteryRoutes = require("./api/routes/battery");
 
 const establishDBconnection = async () => {

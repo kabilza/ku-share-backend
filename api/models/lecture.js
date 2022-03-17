@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const lectureSchema = mongoose.Schema(
   {
+    _id: mongoose.Schema.Types.ObjectId,
     userId: { type: String, required: true },
     title: {
       type: String,
@@ -31,9 +32,6 @@ const lectureSchema = mongoose.Schema(
     numberOfPages: {
       type: String,
       required: true,
-    },
-    dateCreated: {
-      type: Date,
     },
     thumbnail: {
       type: Object,
