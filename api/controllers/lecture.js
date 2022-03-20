@@ -61,6 +61,7 @@ exports.lectureUpload = async (req, res, next) => {
   // console.log(formData.get('file'));
   // console.log(this.state.req.body)
   console.log(req.body);
+  console.log(req.files);
 }
 
 exports.lectureFetching = async (req, res, next) => {

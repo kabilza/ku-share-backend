@@ -7,7 +7,16 @@ const jwt = require("jsonwebtoken");
 const lectureController = require('../controllers/lecture');
 const multer = require('../middleware/multer-thumbnail');
 
-router.post("/upload", multer.single("thumbnail"), lectureController.lectureUpload);
+// .array(fieldname[, maxCount])
+
+// router.post("/upload", multer.single("thumbnail"), lectureController.lectureUpload);
+
+// router.post("/upload", multer.array("thumbnail",1), lectureController.lectureUpload);
+
+router.post("/upload", multer.fields([
+    { name: 'thumbnail', maxCount: 1 },
+    { name: 'pdfFile', maxCount: 1 }
+  ]), lectureController.lectureUpload);
 
 router.get("/fetch", lectureController.lectureFetching);
 
