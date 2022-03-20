@@ -57,6 +57,9 @@ const Lecture = require("../models/lecture");
 // };
 
 exports.lectureUpload = async (req, res, next) => {
+  // const formData = req.body.document;
+  // console.log(formData.get('file'));
+  // console.log(this.state.req.body)
   console.log(req.body);
 }
 
