@@ -1,6 +1,8 @@
 const multer = require("multer");
 
-const storage = multer.diskStorage({});
+// const storage = multer.diskStorage({}); // change to memoryStorage() for the buffer value. https://stackoverflow.com/a/69922094
+
+const storage = multer.memoryStorage();
 
 // const fileFilter = (req, file, cb) => {
 //     if (!file.mimetype.includes("image")) {
@@ -14,4 +16,10 @@ const fileFilter = (req, file, cb) => {
 }
 
 
-module.exports = multer({storage, fileFilter});
+module.exports = multer({ 
+    storage: storage, 
+    fileFilter, 
+    limits: {
+        fileSize: 5 * 1024 * 1024
+    } 
+});
