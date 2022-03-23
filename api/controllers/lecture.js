@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const uniqid = require("uniqid");
 const cloudinary = require("../../cloud");
+const bucket = require("../../bucket");
 
 const Lecture = require("../models/lecture");
 
@@ -57,11 +58,26 @@ const Lecture = require("../models/lecture");
 // };
 
 exports.lectureUpload = async (req, res, next) => {
-  // const formData = req.body.document;
-  // console.log(formData.get('file'));
-  // console.log(this.state.req.body)
-  console.log(req.body);
-  console.log(req.files);
+  // console.log(req.body);
+  console.log(req.file);
+  const folder = 'lectures'
+  const fileName = `${folder}/${Date.now()}`
+  const fileUpload = bucket.file(fileName);
+  const blobStream = fileUpload.createWriteStream({
+    metadata: {
+      contentType: req.file.mimetype
+    }
+  });
+
+  blobStream.on('error', (err) => {
+    res.status(405).json(err);
+  });
+
+  blobStream.on('finish', () => {
+    res.status(200).send('Upload complete!');
+  });
+
+  blobStream.end(req.file.buffer);
 }
 
 exports.lectureFetching = async (req, res, next) => {
