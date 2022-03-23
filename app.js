@@ -3,6 +3,8 @@ const app = express();
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 
+const admin = require('firebase-admin');
+
 const userRoutes = require("./api/routes/user");
 const lectureRoutes = require("./api/routes/lecture");
 // const batteryRoutes = require("./api/routes/battery");
@@ -40,6 +42,8 @@ app.use((req, res, next) => {
   }
   next();
 });
+
+app.use('/site', express.static('public'));
 
 app.use("/user", userRoutes);
 app.use("/lecture", lectureRoutes);
