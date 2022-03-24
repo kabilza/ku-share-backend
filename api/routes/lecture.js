@@ -21,6 +21,8 @@ const multer = require('../middleware/multer-thumbnail');
 // should change this multer string to match the name field from frontend
 router.post("/upload", multer.single('pdf'), lectureController.lectureUpload);
 
+router.get("/:id", lectureController.singleLecture);
+
 router.get("/fetch", lectureController.lectureFetching);
 
 
