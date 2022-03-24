@@ -7,6 +7,51 @@ const bucket = require("../../bucket");
 
 const Lecture = require("../models/lecture");
 
+// const cloudinaryUpload = async (file) => {
+//   // console.log("there is thumbnail!");
+//   // console.log(file.buffer);
+//   try{
+//     // const { secure_url: url, public_id } = await cloudinary.uploader.upload(file.buffer);
+//     // console.log(url);
+//     // console.log(public_id);
+//     // console.log("now writing file path to db, done");
+//   await cloudinary.uploader.upload_stream({ resource_type: 'image' }, (err, res) => {
+//       if (err) {
+//         console.log(err);
+//       } else {
+//         console.log(`Upload succeed: ${res}`)
+//         console.log(res);
+//         return res;
+//       }
+//     }).end(file.buffer);
+//   }
+//   catch (err) {
+//     (err) => {
+//       console.log('error!');
+//       console.log(err);
+//       res.status(200).json({
+//         err,
+//       });
+//     };
+//   }
+
+const cloudinaryUpload = async (file) => {
+  return new Promise((resolve, reject) => {
+    cloudinary.uploader
+      .upload_stream({ resource_type: "image" }, (err, res) => {
+        if (err) {
+          console.log(err);
+          reject(err);
+        } else {
+          console.log(`Upload succeed: `);
+          console.log(res);
+          resolve(res);
+        }
+      })
+      .end(file.buffer);
+  });
+};
+
 // exports.lectureUpload = async (req, res, next) => {
 // console.log(req.body);
 // console.log(req.files.pdf[0].mimetype);
@@ -32,29 +77,29 @@ const Lecture = require("../models/lecture");
 //     return res.status(401).json({ error: "Please use unique slug" });
 //   }
 
-//   const newLecture = new Lecture({
-//     userId,
-//     title,
-//     author,
-//     description,
-//     subject,
-//     section,
-//     professor,
-//     numberOfPages,
-//     dateCreated,
-//     filePath,
-//     slug,
-//   });
+  // const newLecture = new Lecture({
+  //   userId,
+  //   title,
+  //   author,
+  //   description,
+  //   subject,
+  //   section,
+  //   professor,
+  //   numberOfPages,
+  //   dateCreated,
+  //   filePath,
+  //   slug,
+  // });
 
-//   if (file) {
-//     const { secure_url: url, public_id } = await cloudinary.uploader.upload(
-//       file.path
-//     );
-//     console.log(url);
-//     console.log(public_id);
-//     console.log('now writing file path to db')
-//     newLecture.thumbnail = {url, public_id}
-//   }
+// if (file) {
+//   const { secure_url: url, public_id } = await cloudinary.uploader.upload(
+//     file.path
+//   );
+//   console.log(url);
+//   console.log(public_id);
+//   console.log('now writing file path to db')
+//   newLecture.thumbnail = {url, public_id}
+// }
 
 //   await newLecture.save();
 
@@ -64,15 +109,9 @@ const Lecture = require("../models/lecture");
 exports.lectureUpload = async (req, res, next) => {
   const reqUserInput = JSON.parse(req.body.userInput);
 
-  const {userId,
-    title,
-    author,
-    description,
-    subject,
-    section,
-    slug} = reqUserInput
-  console.log(description)
-  
+  const { userId, title, author, description, subject, section, slug } =
+    reqUserInput;
+
 
   const folder = "lectures";
   const fileName = `${folder}/${Date.now()}`;
@@ -94,11 +133,40 @@ exports.lectureUpload = async (req, res, next) => {
         action: "read",
         expires: "03-09-2491",
       })
-      .then((signedUrls) => {
+      .then(async (signedUrls) => {
         // signedUrls[0] contains the file's public URL
-        console.log("Lecture URL:");
-        console.log(signedUrls[0]);
-        res.status(200).send(signedUrls[0]);
+        const filePath = signedUrls[0];
+
+        if (req.files.thumbnail[0]) {
+          const { secure_url, public_id } = await cloudinaryUpload(
+            req.files.thumbnail[0]
+          );
+          console.log("thumbnail upload is done!");
+
+          const thumbnail = {
+            url: secure_url,
+            public_id: public_id
+          }
+
+          const newLecture = new Lecture({
+            _id: new mongoose.Types.ObjectId(),
+            userId,
+            title,
+            author,
+            description,
+            subject,
+            section,
+            thumbnail,
+            filePath,
+            slug,
+          });
+
+          await newLecture.save();
+
+          console.log(newLecture);
+          res.status(200).json(newLecture);
+          
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -107,7 +175,7 @@ exports.lectureUpload = async (req, res, next) => {
         });
       });
   });
-  blobStream.end(req.files.buffer);
+  blobStream.end(req.files.pdf[0].buffer);
 };
 
 exports.singleLecture = async (req, res, next) => {
