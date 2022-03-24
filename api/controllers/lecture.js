@@ -7,34 +7,6 @@ const bucket = require("../../bucket");
 
 const Lecture = require("../models/lecture");
 
-// const cloudinaryUpload = async (file) => {
-//   // console.log("there is thumbnail!");
-//   // console.log(file.buffer);
-//   try{
-//     // const { secure_url: url, public_id } = await cloudinary.uploader.upload(file.buffer);
-//     // console.log(url);
-//     // console.log(public_id);
-//     // console.log("now writing file path to db, done");
-//   await cloudinary.uploader.upload_stream({ resource_type: 'image' }, (err, res) => {
-//       if (err) {
-//         console.log(err);
-//       } else {
-//         console.log(`Upload succeed: ${res}`)
-//         console.log(res);
-//         return res;
-//       }
-//     }).end(file.buffer);
-//   }
-//   catch (err) {
-//     (err) => {
-//       console.log('error!');
-//       console.log(err);
-//       res.status(200).json({
-//         err,
-//       });
-//     };
-//   }
-
 const cloudinaryUpload = async (file) => {
   return new Promise((resolve, reject) => {
     cloudinary.uploader
@@ -52,59 +24,6 @@ const cloudinaryUpload = async (file) => {
   });
 };
 
-// exports.lectureUpload = async (req, res, next) => {
-// console.log(req.body);
-// console.log(req.files.pdf[0].mimetype);
-// console.log('thumbnail file: ')
-// console.log(req.files.thumbnail);
-//   const {
-//     userId,
-//     title,
-//     author,
-//     description,
-//     subject,
-//     section,
-//     professor,
-//     numberOfPages,
-//     dateCreated,
-//     filePath,
-//     slug,
-//   } = req.body;
-//   const { file } = req;
-//   const isAlreadyExists = await Lecture.findOne({ slug });
-
-//   if (isAlreadyExists) {
-//     return res.status(401).json({ error: "Please use unique slug" });
-//   }
-
-  // const newLecture = new Lecture({
-  //   userId,
-  //   title,
-  //   author,
-  //   description,
-  //   subject,
-  //   section,
-  //   professor,
-  //   numberOfPages,
-  //   dateCreated,
-  //   filePath,
-  //   slug,
-  // });
-
-// if (file) {
-//   const { secure_url: url, public_id } = await cloudinary.uploader.upload(
-//     file.path
-//   );
-//   console.log(url);
-//   console.log(public_id);
-//   console.log('now writing file path to db')
-//   newLecture.thumbnail = {url, public_id}
-// }
-
-//   await newLecture.save();
-
-//   res.json(newLecture);
-// };
 
 exports.lectureUpload = async (req, res, next) => {
   const reqUserInput = JSON.parse(req.body.userInput);
