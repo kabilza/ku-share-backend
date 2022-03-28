@@ -97,25 +97,15 @@ exports.lectureUpload = async (req, res, next) => {
   blobStream.end(req.files.pdf[0].buffer);
 };
 
-exports.singleLecture = async (req, res, next) => {
-  console.log(req);
-
-  const file = bucket.file(`lectures/${req.params.id}`);
-
-  // force user to download file when enter the url eg. 'http://localhost:3001/lecture/1648107164740'
-  file.download().then((downloadResponse) => {
-    res.status(200).send(downloadResponse[0]);
-  });
-};
-
 exports.lectureFetching = async (req, res, next) => {
   let myUserId = req.query.userId;
   console.log("fetch lecture for userId: ");
   console.log(myUserId);
-  const fetchedLectures = await Lecture.find({ userId: myUserId });
+  // const fetchedLectures = await Lecture.find({ userId: myUserId });
+  const fetchedLectures = await Lecture.find({});;
   try {
-    return res.status(200).json({ myUserId: myUserId });
-    // return res.status(200).json({fetchedLectures});
+    // return res.status(200).json({ myUserId: myUserId });
+    return res.status(200).json({fetchedLectures});
   } catch (err) {
     (err) => {
       console.log(err);
@@ -125,3 +115,34 @@ exports.lectureFetching = async (req, res, next) => {
     };
   }
 };
+
+// exports.singleLecture = async (req, res, next) => {
+//   console.log('singleLecture')
+//   // console.log(req);
+
+//   // const file = bucket.file(`lectures/${req.params.id}`);
+
+//   // // force user to download file when enter the url eg. 'http://localhost:3001/lecture/1648107164740'
+//   // file.download().then((downloadResponse) => {
+//   //   res.status(200).send(downloadResponse[0]);
+//   // });
+// };
+
+// exports.lectureFetching = async (req, res, next) => {
+//   let myUserId = req.query.userId;
+//   console.log("fetch lecture for userId: ");
+//   console.log(myUserId);
+//   // const fetchedLectures = await Lecture.find({ userId: myUserId });
+//   const fetchedLectures = await Lecture.find({});;
+//   try {
+//     // return res.status(200).json({ myUserId: myUserId });
+//     return res.status(200).json({fetchedLectures});
+//   } catch (err) {
+//     (err) => {
+//       console.log(err);
+//       res.status(200).json({
+//         err,
+//       });
+//     };
+//   }
+// };
