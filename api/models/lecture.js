@@ -25,14 +25,14 @@ const lectureSchema = mongoose.Schema(
       required: true,
       trim: true,
     },
-    professor: {
-      type: String,
-      required: true,
-    },
-    numberOfPages: {
-      type: String,
-      required: true,
-    },
+    // professor: {
+    //   type: String,
+    //   required: true,
+    // },
+    // numberOfPages: {
+    //   type: String,
+    //   required: true,
+    // },
     thumbnail: {
       type: Object,
       url: {
@@ -52,7 +52,7 @@ const lectureSchema = mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-      unique: true,
+      // unique: true,
     },
   },
   {
