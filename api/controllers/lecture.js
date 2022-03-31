@@ -116,6 +116,25 @@ exports.lectureFetching = async (req, res, next) => {
   }
 };
 
+exports.searchLectures = async (req, res, next) => {
+  const filters_title = req.query.title;
+  console.log(filters_title);
+  const regex = new RegExp(filters_title, 'i');
+  const fetchedLectures = await Lecture.find({title: {$regex: regex}});
+  console.log(fetchedLectures);
+  try {
+    // return res.status(200).json({ myUserId: myUserId });
+    return res.status(200).json({fetchedLectures});
+  } catch (err) {
+    (err) => {
+      console.log(err);
+      res.status(200).json({
+        err,
+      });
+    };
+  }
+};
+
 // exports.singleLecture = async (req, res, next) => {
 //   console.log('singleLecture')
 //   // console.log(req);

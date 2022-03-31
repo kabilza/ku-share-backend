@@ -18,6 +18,7 @@ router.post("/upload", multer.fields([
 // router.get("/:id", lectureControllerFirebase.singleLecture);
 
 router.get("/fetch", lectureController.lectureFetching);
+router.get("/search", lectureController.searchLectures);
 
 
 module.exports = router;
