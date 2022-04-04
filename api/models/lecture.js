@@ -50,7 +50,7 @@ const lectureSchema = mongoose.Schema(
     },
     slug: {
       type: String,
-      required: true,
+      // required: true,
       trim: true,
       // unique: true,
     },
